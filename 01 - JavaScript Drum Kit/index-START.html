@@ -59,6 +59,32 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  function playSound(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);  
+    
+    if(!audio){ return; } // dont proceed if audio === NULL
+    audio.currentTime = 0; // sets duration to be at 0, otherwise, will need to wait for each sound to be done before playing another sound.
+    audio.play();
+    key.classList.add('playing'); // adds the playing CSS class to the 'key' div-element for animation.
+  }
+
+  // invoke this to remove the transition when the longest event is over.
+  // - there are a few events that happen (like changing all the borders), but we only want to choose 1 event to base it off of.
+  function removeTransition(e){
+    if(e.propertyName !== 'transform') return; 
+    this.classList.remove("playing");
+
+  }
+
+  window.addEventListener('keydown', playSound);
+
+  const keys = document.querySelectorAll(".key");
+  // You cannot listen for events on a whole node list.
+  // You must attach eventListeners on every single node.
+  keys.forEach((key) => {
+    key.addEventListener('transitionend', removeTransition);
+  });
 
 </script>
 
