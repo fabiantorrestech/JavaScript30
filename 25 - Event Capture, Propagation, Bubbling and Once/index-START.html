@@ -41,8 +41,29 @@
   }
 </style>
 
-<button></button>
+<button>I am the button! 0:<</button>
 <script>
+
+  function logText(e){
+    console.log(this.classList.value);
+    e.stopPropagation();
+  }
+
+  const divs = document.querySelectorAll('div'); // capture all the divs
+  const button = document.querySelector('button');
+
+  // for demonstrating the idea of capture and bubbling!
+  divs.forEach( div => div.addEventListener('click', logText, {
+    capture: false
+  }));
+
+  // creating a button that can only be clicked once.
+  button.addEventListener('click', () => {
+    console.log('You will never see me again.');
+  }, {
+    once: true
+  });
+
 
 </script>
 </body>
